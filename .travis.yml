@@ -6,4 +6,5 @@ repos:
   CRAN: https://packagemanager.posit.co/cran/__linux__/bionic/latest
 apt_packages:
   - qpdf
+  - libuv1-dev
 warnings_are_errors: true
