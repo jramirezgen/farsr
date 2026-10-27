@@ -1,10 +1,9 @@
 language: r
+dist: focal
+r: "4.3.3"
 cache: packages
+repos:
+  CRAN: https://packagemanager.posit.co/cran/__linux__/focal/latest
+apt_packages:
+  - qpdf
 warnings_are_errors: true
-r:
-  - release
-  - devel
-r_packages:
-  - covr
-after_success:
-  - Rscript -e 'covr::codecov()'
