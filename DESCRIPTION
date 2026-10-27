@@ -1,0 +1,28 @@
+Package: farsr
+Type: Package
+Title: Read, Summarize and Map US Fatality Analysis Reporting System Data
+Version: 0.1.0
+Authors@R: person("Jefferson", "Ramirez", email = "jramirezgen@gmail.com",
+    role = c("aut", "cre"))
+Description: Functions to read the yearly files of the US National Highway
+    Traffic Safety Administration's Fatality Analysis Reporting System (FARS),
+    count the fatal accidents per month and year, and map the accidents of a
+    state. The package includes the FARS data for 2013 to 2015.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 3.5.0)
+Imports:
+    dplyr,
+    graphics,
+    magrittr,
+    maps,
+    readr,
+    tibble,
+    tidyr,
+    utils
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.1.0

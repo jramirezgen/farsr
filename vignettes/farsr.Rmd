@@ -1,0 +1,77 @@
+---
+title: "Working with FARS data in farsr"
+author: "Jefferson Ramirez"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with FARS data in farsr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(farsr)
+# The FARS files shipped with the package are read from the working directory
+data_dir <- system.file("extdata", package = "farsr")
+knitr::opts_knit$set(root.dir = data_dir)
+```
+
+## What the package does
+
+`farsr` works with the data of the US National Highway Traffic Safety
+Administration's Fatality Analysis Reporting System (FARS), a nationwide census
+of fatal injuries in motor vehicle crashes. The package includes the yearly
+files for 2013, 2014 and 2015 in `inst/extdata`. It has five main functions:
+
+| Function | What it does |
+|---|---|
+| `fars_read()` | reads one FARS file into a tibble |
+| `make_filename()` | builds the name of the file of a year |
+| `fars_read_years()` | reads the month and year of the accidents of several years |
+| `fars_summarize_years()` | counts the accidents by month and year |
+| `fars_map_state()` | maps the accidents of a state in a year |
+
+All functions look for the data files in the working directory. The files are
+named `accident_<year>.csv.bz2`.
+
+## Reading a file
+
+```{r read}
+accidents_2013 <- fars_read("accident_2013.csv.bz2")
+dim(accidents_2013)
+head(accidents_2013[, c("STATE", "MONTH", "DAY", "FATALS")])
+```
+
+`make_filename()` gives the file name of a year, and does not check that the
+file exists:
+
+```{r filename}
+make_filename(2014)
+```
+
+## Accidents per month and year
+
+`fars_summarize_years()` returns one row per month and one column per year:
+
+```{r summarize}
+fars_summarize_years(c(2013, 2014, 2015))
+```
+
+A year without a data file gives a warning and is left out of the table:
+
+```{r invalid}
+res <- suppressWarnings(fars_read_years(c(2013, 1999)))
+sapply(res, is.null)
+```
+
+## Mapping the accidents of a state
+
+`fars_map_state()` takes the state code used in the `STATE` column and a year.
+State 1 is Alabama:
+
+```{r map, fig.width = 5, fig.height = 5}
+fars_map_state(1, 2013)
+```
+
+A state code that is not in the data stops with the error
+`invalid STATE number`.
